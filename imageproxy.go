@@ -143,9 +143,9 @@ func (p *Proxy) serveImage(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := p.Client.Get(req.String())
 	if err != nil {
-		msg := fmt.Sprintf("error fetching remote image: %v", err)
+		msg := fmt.Sprintf("")
 		log.Print(msg)
-		http.Error(w, msg, http.StatusInternalServerError)
+		http.Error(w, msg, http.StatusNotFound)
 		return
 	}
 	defer resp.Body.Close()
@@ -331,7 +331,7 @@ func (t *TransformingTransport) RoundTrip(req *http.Request) (*http.Response, er
 	img, err := Transform(b, opt)
 	if err != nil {
 		log.Printf("error transforming image %s: %v", u.String(), err)
-		img = b
+		return nil, err
 	}
 
 	// replay response with transformed image and updated content length
