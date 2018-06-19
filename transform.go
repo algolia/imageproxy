@@ -47,8 +47,8 @@ var resampleFilter = imaging.Lanczos
 // bytes of a similarly encoded image is returned.
 func Transform(img []byte, opt Options) ([]byte, error) {
 	if !opt.transform() {
-		// bail if no transformation was requested
-		return img, nil
+		// TODO: Check if the content is an actual image
+		return nil, fmt.Errorf("Not an image")
 	}
 
 	// decode image
